@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaibhav Prasad - 3D Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            /* Custom cursor styles */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>') 12 12, auto;
+        }
+        /* Change cursor on hover for interactive elements */
+        a, button, .btn-aesthetic {
+             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="rgba(255,255,255,0.3)" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>') 12 12, pointer;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        .glass-card {
+            background: rgba(10, 10, 26, 0.3); /* Darker, 30% opacity background */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            /* border: 1px solid rgba(255, 255, 255, 0.1); */ /* Removed border */
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(10, 10, 26, 0.5);
+        }
+        .btn-aesthetic {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        .btn-aesthetic:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: -1;
+        }
+        .btn-aesthetic:hover:before {
+            width: 200%;
+            height: 200%;
+        }
+    </style>
+</head>
+<body class="bg-gray-900">
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="content-wrapper container mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <header class="py-8 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-amber-400">Vaibhav Prasad</h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#engineering" class="text-gray-300 hover:text-amber-400 transition duration-300">Engineering</a>
+                <a href="#projects" class="text-gray-300 hover:text-amber-400 transition duration-300">Projects</a>
+                <a href="#skills" class="text-gray-300 hover:text-amber-400 transition duration-300">Skills</a>
+                <a href="#interests" class="text-gray-300 hover:text-amber-400 transition duration-300">Interests</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="text-center py-20">
+            <img src="https://placehold.co/150x150/2d3748/e0e0e0?text=VP" alt="Vaibhav Prasad" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-amber-500">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                From Blueprints to Blue Skies, <br> Crafting the <span class="text-amber-400">Future of Flight</span>.
+            </h2>
+            <p class="mt-6 max-w-2xl mx-auto text-gray-300 text-lg">
+               Hello, I’m Vaibhav Prasad. This space is a reflection of my thoughts, experiences, and perspectives on life. I believe in growth, self-improvement, and constantly pushing beyond limitations. I aim to share insights, lessons, and reflections that shape my journey. If you resonate with introspection and a purpose-driven mindset, you’ll find something meaningful here. 
+            </p>
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="#" class="btn-aesthetic bg-amber-600 hover:bg-amber-500 text-white font-semibold py-3 px-8 rounded-lg">My Work</a>
+                <a href="#" class="btn-aesthetic bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-8 rounded-lg">Contact Me</a>
+            </div>
+        </section>
+
+        <!-- Mechanical Engineering Section -->
+        <section id="engineering" class="py-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-amber-400">Mechanical Engineering Expertise</h3>
+                <p class="text-gray-400">Core Technical Competencies</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="glass-card p-6 text-center">
+                    <h5 class="text-xl font-semibold text-white mb-2">Thermodynamics & Heat Transfer</h5>
+                    <p class="text-gray-400">Analysis of energy systems, thermal management, and heat exchanger design.</p>
+                </div>
+                <div class="glass-card p-6 text-center">
+                    <h5 class="text-xl font-semibold text-white mb-2">Solid Mechanics & FEA</h5>
+                    <p class="text-gray-400">Stress-strain analysis and structural simulation for component durability.</p>
+                </div>
+                <div class="glass-card p-6 text-center">
+                    <h5 class="text-xl font-semibold text-white mb-2">Manufacturing & Material Science</h5>
+                    <p class="text-gray-400">Expertise in CNC machining, additive manufacturing, and material selection.</p>
+                </div>
+                <div class="glass-card p-6 text-center">
+                    <h5 class="text-xl font-semibold text-white mb-2">Mechatronics & Control Systems</h5>
+                    <p class="text-gray-400">Integrating mechanical systems with electronics and intelligent controls.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects In Progress -->
+        <section id="projects" class="py-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-amber-400">Projects In Progress</h3>
+            </div>
+            <div class="space-y-12">
+                <div class="glass-card p-8">
+                    <h4 class="text-2xl font-bold text-white mb-2">VTOL Design | Design of Actual AeroVi Tech</h4>
+                    <p class="text-gray-300">This project is an innovative approach towards the future of transportation. We are designing and developing a Vertical Take-Off and Landing (VTOL) aircraft for urban air mobility.</p>
+                </div>
+                <div class="glass-card p-8">
+                    <h4 class="text-2xl font-bold text-white mb-2">Ramjet Engine</h4>
+                    <p class="text-gray-300">This was my internship project to design a ramjet engine. This was a challenging but rewarding experience where I learned a lot about thermodynamics and aerospace engineering.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-amber-400">My Skillset</h3>
+            </div>
+            <div class="space-y-8">
+                <div>
+                    <h4 class="text-xl font-semibold text-white mb-4 text-center">Design & Workspace</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="glass-card p-4">CATIA</div>
+                        <div class="glass-card p-4">SolidWorks</div>
+                        <div class="glass-card p-4">Google Workspace</div>
+                        <div class="glass-card p-4">CAD Design</div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-white mb-4 text-center">Video & Image Editing</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                        <div class="glass-card p-4">Filmora</div>
+                        <div class="glass-card p-4">Premiere Pro</div>
+                        <div class="glass-card p-4">After Effects</div>
+                        <div class="glass-card p-4">Canva</div>
+                        <div class="glass-card p-4">Adobe Firefly</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Interests Section -->
+        <section id="interests" class="py-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-amber-400">Other Interests</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="glass-card p-6 text-center">
+                    <img src="https://placehold.co/100x100/1a202c/e0e0e0?text=Jogger" class="mx-auto mb-4 rounded-lg">
+                    <h5 class="text-xl font-semibold text-white mb-2">Jogging</h5>
+                    <p class="text-gray-400">Target: >1000 Kms by end of 2024.</p>
+                </div>
+                <div class="glass-card p-6 text-center">
+                    <img src="https://placehold.co/100x100/1a202c/e0e0e0?text=Connections" class="mx-auto mb-4 rounded-lg">
+                    <h5 class="text-xl font-semibold text-white mb-2">Connections</h5>
+                    <p class="text-gray-400">With CA, Lawyers, CS, Designers, Future Founders.</p>
+                </div>
+                <div class="glass-card p-6 text-center">
+                    <img src="https://placehold.co/100x100/1a202c/e0e0e0?text=Swimming" class="mx-auto mb-4 rounded-lg">
+                    <h5 class="text-xl font-semibold text-white mb-2">Swimming</h5>
+                    <p class="text-gray-400">A refreshing way to stay active and clear the mind.</p>
+                </div>
+                <div class="glass-card p-6 text-center">
+                    <img src="https://placehold.co/100x100/1a202c/e0e0e0?text=Karate" class="mx-auto mb-4 rounded-lg">
+                    <h5 class="text-xl font-semibold text-white mb-2">Karate</h5>
+                    <p class="text-gray-400">Discipline, focus, and self-defense.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 mt-20 border-t border-gray-800">
+            <p class="text-gray-400">&copy; 2024 Vaibhav Prasad. All Rights Reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="text-gray-400 hover:text-amber-400 transition duration-300">LinkedIn</a>
+                <a href="#" class="text-gray-400 hover:text-amber-400 transition duration-300">GitHub</a>
+                <a href="#" class="text-gray-400 hover:text-amber-400 transition duration-300">Instagram</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Vertex Shader -->
+    <script id="vertexShader" type="x-shader/x-vertex">
+        void main() {
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    </script>
+    
+    <!-- Fragment Shader for Nebula Effect -->
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+
+        // 2D random function
+        float random (vec2 st) {
+            return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+        }
+
+        // 2D noise function
+        float noise (vec2 st) {
+            vec2 i = floor(st);
+            vec2 f = fract(st);
+
+            float a = random(i);
+            float b = random(i + vec2(1.0, 0.0));
+            float c = random(i + vec2(0.0, 1.0));
+            float d = random(i + vec2(1.0, 1.0));
+
+            vec2 u = f*f*(3.0-2.0*f);
+            return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+        }
+
+        // Fractal Brownian Motion
+        float fbm (vec2 st) {
+            float value = 0.0;
+            float amplitude = .5;
+            for (int i = 0; i < 6; i++) {
+                value += amplitude * noise(st);
+                st *= 2.;
+                amplitude *= .5;
+            }
+            return value;
+        }
+
+        void main() {
+            vec2 st = gl_FragCoord.xy/u_resolution.xy;
+            st.x *= u_resolution.x/u_resolution.y;
+            
+            // This mouse effect is for the warping, not color
+            vec2 mouse_warp = u_mouse * 0.4;
+            
+            vec2 q = vec2(0.);
+            q.x = fbm( st + 0.00*u_time - mouse_warp);
+            q.y = fbm( st + vec2(1.0));
+
+            vec2 r = vec2(0.);
+            r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*u_time - mouse_warp);
+            r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126*u_time - mouse_warp);
+
+            float f = fbm(st+r);
+
+            // --- COLOR CHANGE LOGIC ---
+            // Define two color palettes to blend between
+            vec3 colorA = mix(vec3(0.1, 0.0, 0.2), vec3(0.2, 0.2, 0.5), clamp((f*f)*4.0,0.0,1.0)); // Cool: Purple/Blue
+            vec3 colorB = mix(vec3(0.6, 0.1, 0.1), vec3(0.8, 0.4, 0.1), clamp((f*f)*4.0,0.0,1.0)); // Warm: Red/Orange
+
+            // Map horizontal mouse position (from -1 to 1) to a 0-1 range for mixing
+            float mouseMix = (u_mouse.x + 1.0) / 2.0;
+            
+            // Blend the two color palettes based on the mouse position
+            vec3 color = mix(colorA, colorB, mouseMix);
+
+            // Apply final layers of color for depth and highlights
+            color = mix(color,
+                        vec3(0.0,0.0,0.1),       // Very Dark Blue for shadows
+                        clamp(length(q),0.0,1.0));
+
+            color = mix(color,
+                        vec3(0.9,0.9,1.0),       // Light Blue/White highlights
+                        clamp(length(r.x),0.0,1.0));
+
+            gl_FragColor = vec4((f*f*f+.6*f*f+.5*f)*color,1.);
+        }
+    </script>
+    
+    <script>
+        // Three.js Scene Setup
+        let scene, camera, renderer, material, mesh, spaceship;
+        let uniforms;
+        const targetPosition = new THREE.Vector2(); // For spaceship movement
+
+        function init() {
+            // Scene and Camera
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5; // Move camera back to see the ship
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById("bg-canvas"),
+                antialias: true,
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Nebula Background
+            const geometry = new THREE.PlaneGeometry(2, 2);
+            uniforms = {
+                u_time: { value: 1.0 },
+                u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+                u_mouse: { value: new THREE.Vector2() }
+            };
+            material = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: document.getElementById('vertexShader').textContent,
+                fragmentShader: document.getElementById('fragmentShader').textContent
+            });
+            mesh = new THREE.Mesh(geometry, material);
+            mesh.position.z = -5; // Push the nebula back
+            scene.add(mesh);
+
+            // Create Spaceship
+            createSpaceship();
+
+            // Event Listeners
+            window.addEventListener("resize", onWindowResize, false);
+            document.addEventListener('mousemove', onMouseMove, false);
+
+            // Start Animation
+            animate();
+        }
+
+        function createSpaceship() {
+            spaceship = new THREE.Group();
+
+            // Materials for the ship - Updated to Gold!
+            const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0xB8860B, metalness: 0.9, roughness: 0.3 }); // DarkGoldenRod
+            const wingMaterial = new THREE.MeshStandardMaterial({ color: 0xDAA520, metalness: 0.9, roughness: 0.3 }); // GoldenRod
+
+            // Main Body
+            const bodyGeometry = new THREE.ConeGeometry(0.2, 1, 16);
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.rotation.x = Math.PI / 2; // Point it forward
+            spaceship.add(body);
+
+            // Wings
+            const wingGeometry = new THREE.BoxGeometry(1.2, 0.08, 0.4);
+            const leftWing = new THREE.Mesh(wingGeometry, wingMaterial);
+            leftWing.position.set(-0.5, 0, 0.15);
+            spaceship.add(leftWing);
+
+            const rightWing = new THREE.Mesh(wingGeometry, wingMaterial);
+            rightWing.position.set(0.5, 0, 0.15);
+            spaceship.add(rightWing);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+
+            // Initial position and scale
+            spaceship.scale.set(0.8, 0.8, 0.8);
+            scene.add(spaceship);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        }
+        
+        function onMouseMove(event) {
+            // Update nebula shader uniform
+            uniforms.u_mouse.value.x = (event.clientX / window.innerWidth) * 2 - 1;
+            uniforms.u_mouse.value.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            // Update spaceship target position
+            // Map mouse coords to a wider range for more noticeable movement
+            let vector = new THREE.Vector3(uniforms.u_mouse.value.x, uniforms.u_mouse.value.y, 0.5);
+            vector.unproject(camera);
+            let dir = vector.sub(camera.position).normalize();
+            let distance = -camera.position.z / dir.z;
+            let pos = camera.position.clone().add(dir.multiplyScalar(distance));
+            targetPosition.x = pos.x;
+            targetPosition.y = pos.y;
+        }
+
+        const clock = new THREE.Clock();
+        function animate() {
+            // Update nebula time
+            uniforms.u_time.value = clock.getElapsedTime();
+
+            // Animate spaceship
+            if (spaceship) {
+                // Smoothly interpolate position (easing)
+                spaceship.position.x += (targetPosition.x - spaceship.position.x) * 0.05;
+                spaceship.position.y += (targetPosition.y - spaceship.position.y) * 0.05;
+
+                // Bank the spaceship based on movement direction for a dynamic effect
+                spaceship.rotation.z = -(targetPosition.x - spaceship.position.x) * 0.1;
+                spaceship.rotation.y = (targetPosition.x - spaceship.position.x) * 0.05;
+                spaceship.rotation.x = -(targetPosition.y - spaceship.position.y) * 0.1;
+            }
+
+            // Render the scene
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        init();
+    </script>
+
+</body>
+</html>
